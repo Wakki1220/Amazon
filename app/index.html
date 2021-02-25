@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type" content="text/html" ; charset="UTF-8">
+    <title>LOGIN</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <h1>Login</h1>
+    <hr />
+    <div align="center">
+        <form id="loginForm">
+            <p>
+                <input id="userId" name="userId" type="text" placeholder="UserID" />
+            </p>
+            <p>
+                <input id="password" name="password" type="password" placeholder="Password" />
+            </p>
+            <p>
+                <!--<button id="send">ログイン</button>-->
+                <input id="submit" type="submit" class="" value="ログイン" tabindex="0">
+            </p>
+        </form>
+    </div>
+    <script>
+        /*
+         * ページの読み込みが完了したら実行
+         */
+        window.onload = () => {
+            /*
+             * 送信イベントが発生したら実行
+             */
+            document.querySelector("#loginForm").addEventListener('submit', e => {
+                // 規定の送信処理をキャンセル（画面遷移などしない）
+                e.preventDefault();
+
+                // 送信データの準備
+                const userId = document.getElementById("userId").value;
+                const password = document.getElementById("password").value;
+
+                const loginData = {
+                    "userId": userId,
+                    "password": password
+                };
+
+                const param = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+                    body: JSON.stringify(loginData)
+                };
+
+                // サーバーに送る
+                fetch('/', param)
+                    .then((res) => {
+                        return (res.json());
+                    })
+                    .then((json) => {
+                        console.log("通信成功");
+                    })
+                    .catch((error) => {
+                        console.log("通信失敗");
+                    });
+            });
+        };
+
+
+        //const el = document.querySelector('#send');
+        //el.addEventListener('click', e => {
+        //    console.log("btログインが押されました。");
+        //});
+
+        //window.addEventListener('DOMContentLoaded', e => {
+        //    const elUserId = document.querySelector('#userId');
+        //    const elPassword = document.querySelector('#password');
+        //    const elLoginForm = document.querySelector('#loginForm');
+
+        //    elLoginForm.addEventListener('submit', e => {
+        //        const vUserId = elUserId.value;
+        //        const vPassword = elPassword.value;
+        //    });
+        //});
+
+        //document.getElementById("send").onclick = function () {
+        //    const userId = document.getElementById("userId").value;
+        //    const json = {"userId" : }
+        //};
+    </script>
+</body>
+</html>
