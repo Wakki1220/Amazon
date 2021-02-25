@@ -2,9 +2,11 @@ var express = require('express');
 var app = express();
 var path = require('path');
 
+//-------2/25追加-----------------------------------
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+//--------------------------------------------------
 
 // index.htmlを表示する
 // index.jsのルートが「/」で設定しているので、index.jsから見てindex.htmlは
@@ -37,7 +39,9 @@ app.listen(3000, () => {
     console.log('Start server port:3000')
 });
 
+//-------2/25追加--------------
 app.post('/', (req, res) => {
     console.log(req.body);
     res.send('OK');
 });
+//-----------------------------
