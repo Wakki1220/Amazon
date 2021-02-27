@@ -1,35 +1,31 @@
-var express = require('express');
-var app = express();
-var path = require('path');
+const express = require('express');
+const app = express();
 
-//-------2/25追加-----------------------------------
+// パス指定用モジュール
+const path = require('path');
+
+// ------req.bodyが使えるようにするために必要---------
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //--------------------------------------------------
 
-// index.htmlを表示する
-// index.jsのルートが「/」で設定しているので、index.jsから見てindex.htmlは
-// /(index.jsの階層)+../(一つ上の階層)+app(index.htmlがいる階層)となるので
-// 「/../app」という書き方になる？
-app.use(express.static(path.join(__dirname, '/../app')));
+// publicディレクトリにルーティング
+app.use(express.static('public'));
 
-//var { Client } = require('pg');
+// postgresqlに繋ぐのに必要なモジュール
+let { Client } = require('pg');
 
-//var client = new Client({
-//    user: 'username',
-//    host: 'localhost',
-//    database: 'dbname',
-//    password: 'password',
-//    port: 5432
-//});
+// パラメーターは別のところから参照するようにする
+let connection = new Client({
+    user: '',
+    host: 'localhost',
+    database: '',
+    password: '',
+    port: 5432
+});
 
-//client.connect();
-
-//client.query('SELECT id FROM users', (err, res) => {
-//    console.log(err);
-//    client.end();
-//});
+connection.connect();
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
@@ -39,9 +35,36 @@ app.listen(3000, () => {
     console.log('Start server port:3000')
 });
 
-//-------2/25追加--------------
-app.post('/', (req, res) => {
-    console.log(req.body);
+//-------------------------------------------------------------------------------------------------------------
+app.post('/server/index.js', (req, res) => {
+    // 確認用にコンソールに出力する
+    console.log(req.body);  // login.jsから送られてきたデータがreqの中に入っている
+
+    let userId = req.body.userId;
+    let password = req.body.password;
+
+    let query = `SELECT COUNT(*) FROM users WHERE user_id = '${userId}' AND password = '${password}'`;
+
+    connection.query(query, function (error, results, fields) {
+
+        console.log(results.rows[0].count);
+
+        let userCount = results.rows[0].count;
+
+        if (userCount == 1) {
+            // top.htmlにリダイレクトする処理を書く
+            //res.redirect('/user');
+        }   
+        else {
+            console.log("wrong UserID or Password");
+            // login.jsに間違っていることを伝える処理を書く
+
+        }
+
+        connection.end();
+    });
+
     res.send('OK');
 });
 //-----------------------------
+
