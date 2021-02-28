@@ -32,10 +32,10 @@ window.onload = () => {
                 return res.text();
             })
             .then((text) => {
-                console.log("データ送信OK");
+                console.log(text);
             })
             .catch((error) => {
-                console.log("エラー");
+                console.log(error);
             });
     });
 };

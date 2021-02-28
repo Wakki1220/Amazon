@@ -22,10 +22,10 @@ let { Client } = require('pg');
 
 // パラメーターは別のところから参照するようにする
 let connection = new Client({
-    user: 'postgres',
+    user: '',
     host: 'localhost',
-    database: 'nakazondb',
-    password: 'Inside601220',
+    database: '',
+    password: '',
     port: 5432
 });
 
@@ -63,6 +63,7 @@ app.post('/', (req, res) => {
         connection.end();
     });
 
-    res.send('OK');
+    res.send('OK!!!!!!');
+    //res.redirect('/');
 });
 
