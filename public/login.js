@@ -27,15 +27,15 @@ window.onload = () => {
         };
 
         // 
-        fetch('/server/index.js', param)
+        fetch('/', param)
             .then((res) => {
                 return res.text();
             })
             .then((text) => {
-                console.log("通信成功");
+                console.log("データ送信OK");
             })
             .catch((error) => {
-                console.log("通信失敗");
+                console.log("エラー");
             });
     });
 };

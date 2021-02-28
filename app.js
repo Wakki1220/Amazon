@@ -1,42 +1,41 @@
 const express = require('express');
+const path = require('path');
+const ejs = require("ejs");
+const bodyParser = require('body-parser');
+
+const index = require('./router/index');
+
 const app = express();
 
-// パス指定用モジュール
-const path = require('path');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // ------req.bodyが使えるようにするために必要---------
-const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //--------------------------------------------------
-
-// publicディレクトリにルーティング
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', index);
 
 // postgresqlに繋ぐのに必要なモジュール
 let { Client } = require('pg');
 
 // パラメーターは別のところから参照するようにする
 let connection = new Client({
-    user: '',
+    user: 'postgres',
     host: 'localhost',
-    database: '',
-    password: '',
+    database: 'nakazondb',
+    password: 'Inside601220',
     port: 5432
 });
 
 connection.connect();
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
-
 app.listen(3000, () => {
     console.log('Start server port:3000')
 });
 
-//-----------------------------2/26追加----------------------------------------------------------------
-app.post('/server/index.js', (req, res) => {
+app.post('/', (req, res) => {
     // 確認用にコンソールに出力する
     console.log(req.body);  // login.jsから送られてきたデータがreqの中に入っている
 
@@ -52,13 +51,13 @@ app.post('/server/index.js', (req, res) => {
         let userCount = results.rows[0].count;
 
         if (userCount == 1) {
-            // top.htmlにリダイレクトする処理を書く
-            //res.redirect('/user');
+            // 該当ユーザーが存在する場合、users/home.ejsにリダイレクトする
+            //res.redirect('/users/home');　// この一行を入れるとnode.jsが落ちてしまう。
         }   
         else {
             console.log("wrong UserID or Password");
             // login.jsに間違っていることを伝える処理を書く
-
+            //res.redirect('/');
         }
 
         connection.end();
@@ -66,5 +65,4 @@ app.post('/server/index.js', (req, res) => {
 
     res.send('OK');
 });
-//-------------------------------------------------------------------------------------------------------
 
