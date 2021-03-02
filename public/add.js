@@ -1,13 +1,13 @@
-/*
- * ページの読み込みが完了したら実行
- */
-window.onload = () => {
+﻿window.onload = () => {
     /*
      * 送信イベントが発生したら実行
      */
-    document.querySelector("#btnLogin").addEventListener('click', e => {
+    document.querySelector("#btnRegister").addEventListener('click', e => {
         // 規定の送信処理をキャンセル（画面遷移などしない）
         e.preventDefault();
+
+        // passwordとpasswordConfirmが一致するかどうかを確認する
+
 
         // 送信データの準備
         let vUserId = document.getElementById("userId").value;

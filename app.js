@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const ejs = require("ejs");
 const bodyParser = require('body-parser');
+const config = require('./config');
 
 const index = require('./router/index');
 
@@ -14,28 +15,29 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //--------------------------------------------------
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 
 // postgresqlに繋ぐのに必要なモジュール
-let { Client } = require('pg');
-
-// パラメーターは別のところから参照するようにする
-let connection = new Client({
-    user: '',
-    host: 'localhost',
-    database: '',
-    password: '',
-    port: 5432
-});
-
-connection.connect();
+const { Client } = require('pg');
 
 app.listen(3000, () => {
     console.log('Start server port:3000')
 });
 
 app.post('/', (req, res) => {
+    // DBに繋ぐための準備
+    let connection = new Client({
+        user: config.user,
+        host: config.host,
+        database: config.database,
+        password: config.password,
+        port: config.port
+    });
+
+    connection.connect();
+
     // 確認用にコンソールに出力する
     console.log(req.body);  // login.jsから送られてきたデータがreqの中に入っている
 
@@ -51,19 +53,15 @@ app.post('/', (req, res) => {
         let userCount = results.rows[0].count;
 
         if (userCount == 1) {
-            // 該当ユーザーが存在する場合、users/home.ejsにリダイレクトする
-            //res.redirect('/users/home');　// この一行を入れるとnode.jsが落ちてしまう。
+            res.send('OK');
         }   
         else {
-            console.log("wrong UserID or Password");
-            // login.jsに間違っていることを伝える処理を書く
-            //res.redirect('/');
+            console.log("Wrong UserID or Password");
+            res.send('NG');
         }
-
         connection.end();
     });
-
-    res.send('OK!!!!!!');
-    //res.redirect('/');
+    
+    //res.send('OK!!!');　←この一文を書くとres.send('OK')が上書きされてしまうので削除
 });
 

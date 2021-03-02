@@ -3,12 +3,12 @@
 <head>
     <meta http-equiv="content-type" content="text/html" ; charset="UTF-8">
     <title>LOGIN</title>
-    <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
 </head>
 <body>
     <h1>Login</h1>
     <hr />
-    <div align="center">
+    <div id="login" align="center">
         <!--<form id="loginForm" action="/top.html" method="post">-->
         <form id="loginForm" class="loginForm">
             <p>
@@ -20,6 +20,11 @@
             <p>
                 <!--<button id="send">ログイン</button>-->
                 <input id="btnLogin" type="button" class="btnLogin" value="ログイン" tabindex="0">
+            </p>
+            <p>
+                アカウントをお持ちでない方は、こちら
+                <a href="/users/add">新規登録</a>
+                をご利用ください
             </p>
         </form>
     </div>

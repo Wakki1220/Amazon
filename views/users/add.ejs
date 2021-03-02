@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type" content="text/html" ; charset="UTF-8">
+    <title>新規登録</title>
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+</head>
+<body>
+    <h1>新規登録</h1>
+    <hr />
+    <div id="login" align="center">
+        <form id="accountRegisterForm" action="/users/home" method="post">
+        <table class="">
+                <tr>
+                    <th align="left">
+                        UserID
+                    </th>
+                    <td>
+                        <span class="type">
+                            半角英数字
+                        </span>
+                        <input id="userId" type="text" class="registerForm" name="userId" />
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        Password
+                    </th>
+                    <td>
+                        <span class="type">
+                            半角英数字
+                        </span>
+                        <input id="password" type="text" class="registerForm" name="password1" />
+                    </td>
+                </tr>
+                <tr>
+                    <th align="left">
+                        Password（確認）
+                    </th>
+                    <td>
+                        <span class="type">
+                            半角英数字
+                        </span>
+                        <input id="passwordConfirm" type="text" class="registerForm" name="password2" />
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <input id="btnRegister" type="button" class="btnRegister" value="新規登録する" tabindex="0">
+            </p>
+            <p>
+                すでに登録されている方は、こちらから
+                <a href="/">ログイン</a>
+                できます
+            </p>
+        </form>
+    </div>
+    <script src=""></script>
+</body>
+</html>

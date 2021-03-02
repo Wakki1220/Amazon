@@ -1,0 +1,9 @@
+﻿.type {
+    display: block;
+    font-size: 2px;
+}
+
+table, td, th {
+    border-collapse: collapse;
+    border: 1px solid #333;
+}
